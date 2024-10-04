@@ -3,152 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Test</title>
+    <title>iPhone Tap Game</title>
     <style>
-        body, html {
-            height: 100%;
+        body {
             margin: 0;
-            background: url('https://i.imgur.com/VAuGpuN.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-        .apps-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-content: flex-start;
-            padding: 10px;
-            margin-top: 40px;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-        }
-
-        .app {
-            width: 25%;
-            text-align: center;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-            opacity: 0;
-            animation: iconPop 0.5s ease forwards;
-            animation-delay: calc(var(--app-index) * 0.1s);
-        }
-
-        .app:hover {
-            transform: scale(1.1);
-        }
-
-        .app img {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-        }
-
-        .app-name {
-            color: white;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .dock {
-            background: rgba(255, 255, 255, 0.2);
-            height: 70px;
-            display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            padding: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .dock img {
-            width: 50px;
-            height: 50px;
-            transition: transform 0.3s ease;
-        }
-
-        .dock img:hover {
-            transform: scale(1.2);
-        }
-
-        .status-bar {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 20px;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 10px;
+            height: 100vh;
+            background-color: #282c34;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
             color: white;
-            font-size: 12px;
         }
 
-        /* Animation for the app icons */
-        @keyframes iconPop {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        #gameArea {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background-color: #4caf50;
         }
 
-        /* Fade-in effect for the app grid */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+        #target {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: #ff5722;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
-    <div class="status-bar">
-        <div class="time">12:00</div>
-        <div class="icons">Wi-Fi | Battery</div>
+
+    <div id="gameArea">
+        <div id="score">Score: 0</div>
+        <div id="target"></div>
     </div>
 
-    <div class="apps-grid">
-        <div class="app" style="--app-index: 1;">
-            <a href="youtube://www.youtube.com" target="_blank">
-                <img src="https://img.icons8.com/color/452/youtube-play.png" alt="YouTube Icon">
-                <div class="app-name">YouTube</div>
-            </a>
-        </div>
-        <div class="app" style="--app-index: 2;">
-            <a href="https://www.facebook.com" target="_blank">
-                <img src="https://img.icons8.com/color/452/facebook-new.png" alt="Facebook Icon">
-                <div class="app-name">Facebook</div>
-            </a>
-        </div>
-        <div class="app" style="--app-index: 3;">
-            <a href="https://www.instagram.com" target="_blank">
-                <img src="https://img.icons8.com/fluency/452/instagram-new.png" alt="Instagram Icon">
-                <div class="app-name">Instagram</div>
-            </a>
-        </div>
-        <div class="app" style="--app-index: 4;">
-            <a href="https://www.twitter.com" target="_blank">
-                <img src="https://img.icons8.com/color/452/twitter--v1.png" alt="Twitter Icon">
-                <div class="app-name">Twitter</div>
-            </a>
-        </div>
-    </div>
+    <script>
+        const gameArea = document.getElementById("gameArea");
+        const target = document.getElementById("target");
+        const scoreDisplay = document.getElementById("score");
 
-    <div class="dock">
-        <img src="https://img.icons8.com/color/452/phone.png" alt="Phone Icon">
-        <img src="https://img.icons8.com/color/452/messages.png" alt="Messages Icon">
-        <img src="https://img.icons8.com/color/452/safari.png" alt="Safari Icon">
-        <img src="https://img.icons8.com/color/452/music.png" alt="Music Icon">
-    </div>
+        let score = 0;
+
+        function randomPosition() {
+            const x = Math.floor(Math.random() * (window.innerWidth - 80));
+            const y = Math.floor(Math.random() * (window.innerHeight - 80));
+            return { x, y };
+        }
+
+        function moveTarget() {
+            const { x, y } = randomPosition();
+            target.style.left = `${x}px`;
+            target.style.top = `${y}px`;
+        }
+
+        target.addEventListener("touchstart", () => {
+            score++;
+            scoreDisplay.innerText = `Score: ${score}`;
+            moveTarget();
+        });
+
+        moveTarget(); // Initial position of the target
+    </script>
+
 </body>
 </html>
