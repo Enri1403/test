@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
-
-    <!-- San Francisco Font -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>WebApp</title>
     <style>
-        @font-face {
-            font-family: 'San Francisco';
-            font-weight: 400;
-            src: local('.SFNS-Regular'), local('San Francisco');
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
         }
-        body {
-            font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            text-align: center;
-            padding-top: 50px;
-            background-color: #f0f0f0;
+        #youtube-button {
+            display: block;
+            width: 200px;
+            height: auto;
         }
-        h1 {
-            font-size: 48px;
-            color: #333;
+        a {
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <h1>Ciao</h1>
+    <a href="youtube://www.youtube.com" target="_blank">
+        <img id="youtube-button" src="https://enri1403.github.io/test/button_youtube.png" alt="YouTube Button">
+    </a>
+
+    <script>
+        // Fallback for devices where the YouTube app isn't available
+        document.querySelector('a').addEventListener('click', function(e) {
+            setTimeout(function() {
+                if (!document.hasFocus()) {
+                    window.location.href = 'https://www.youtube.com';
+                }
+            }, 500);
+        });
+    </script>
 </body>
 </html>
