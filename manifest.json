@@ -1,6 +1,6 @@
 {
-  "name": "Test",
-  "short_name": "Test",
+  "name": "The 6 monster hunt",
+  "short_name": "The 6 monster hunt",
   "start_url": "webapp.html",
   "display": "standalone",
   "background_color": "#ffffff",
